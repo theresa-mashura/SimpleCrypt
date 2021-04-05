@@ -1,4 +1,9 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class ROT13 {
 
@@ -35,6 +40,40 @@ public class ROT13 {
             return (char) (min + (this.shift - (max - curr)));
         } else {
             return (char) (curr + this.shift);
+        }
+    }
+
+    public String readFile(String filename) {
+        String path = "/Users/theresa/_LABS/SimpleCrypt/" + filename;
+        try {
+            File file = new File(path);
+
+            Scanner s = new Scanner(file);
+            StringBuilder sb = new StringBuilder("");
+
+            while (s.hasNextLine()) {
+                sb.append(s.nextLine()).append("\n");
+            }
+            s.close();
+            return sb.toString();
+        } catch (FileNotFoundException e) {
+            System.out.println("That file doesn't exist.");
+        }
+        return null;
+
+    }
+
+    public void writeToNewFile(String filename, String str) {
+        try {
+            File file = new File(filename);
+            file.createNewFile();
+            //System.out.print(file.getAbsolutePath());
+            FileWriter w = new FileWriter(filename);
+            w.write(str);
+            w.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
         }
     }
 }

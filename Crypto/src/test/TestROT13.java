@@ -43,4 +43,41 @@ public class TestROT13 {
         // Then
         Assert.assertEquals(expected, actual);
     }
+
+    @Test
+    public void testReadSonnetFile() {
+        // Given
+        ROT13 r = new ROT13();
+
+        // When
+        String sonnet = r.readFile("sonnet18.txt");
+        String actualCrypt = r.crypt(sonnet);
+        String actualDeCrypt = r.crypt(actualCrypt);
+
+
+        // Then
+        Assert.assertEquals(sonnet, actualDeCrypt);
+    }
+
+    @Test
+    public void testWriteSonnetFile() {
+        // Given
+        ROT13 r = new ROT13();
+
+        // When
+
+        // Read Sonnet File, Encrypt it, & write to new .enc file
+        String givenSonnet = r.readFile("sonnet18.txt");
+        String sonnetEncr = r.crypt(givenSonnet);
+        r.writeToNewFile("sonnet18.enc", sonnetEncr);
+
+        // Read encrypted sonnet, decrypt, & make sure they are the same
+        String readEncr = r.readFile("sonnet18.enc");
+        String finalDecrSonnet = r.crypt(readEncr);
+        r.writeToNewFile("sonnet18EncrypedThenDecrypted.txt", finalDecrSonnet);
+
+
+        // Then
+        Assert.assertEquals(givenSonnet, finalDecrSonnet);
+    }
 }

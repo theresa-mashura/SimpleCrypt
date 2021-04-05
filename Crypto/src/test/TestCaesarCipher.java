@@ -64,6 +64,44 @@ public class TestCaesarCipher {
         // Then
         Assert.assertEquals(given, actual);
     }
+
+
+    @Test
+    public void testReadSonnetFile() {
+        // Given
+        CaesarCipher c = new CaesarCipher(25);
+
+        // When
+        String sonnet = c.readFile("sonnet18.txt");
+        String actualCrypt = c.crypt(sonnet);
+        String actualDeCrypt = c.decryptCaesar(actualCrypt);
+
+
+        // Then
+        Assert.assertEquals(sonnet, actualDeCrypt);
+    }
+
+    @Test
+    public void testWriteSonnetFile() {
+        // Given
+        CaesarCipher c = new CaesarCipher(25);
+
+        // When
+
+        // Read Sonnet File, Encrypt it, & write to new .enc file
+        String givenSonnet = c.readFile("sonnet18.txt");
+        String sonnetEncr = c.crypt(givenSonnet);
+        c.writeToNewFile("sonnet18Shift25.enc", sonnetEncr);
+
+        // Read encrypted sonnet, decrypt, & make sure they are the same
+        String readEncr = c.readFile("sonnet18Shift25.enc");
+        String finalDecrSonnet = c.decryptCaesar(readEncr);
+        c.writeToNewFile("sonnet18EncrypedThenDecryptedShift25.txt", finalDecrSonnet);
+
+
+        // Then
+        Assert.assertEquals(givenSonnet, finalDecrSonnet);
+    }
 }
 
 
